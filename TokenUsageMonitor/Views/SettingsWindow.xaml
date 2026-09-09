@@ -1,0 +1,50 @@
+<Window x:Class="TokenUsageMonitor.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Token Usage Monitor 設定"
+        Width="480"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F5F5F5"
+        Icon="/Assets/App.ico">
+
+    <StackPanel Margin="18">
+        <GroupBox Header="API Key" Margin="0,0,0,12">
+            <StackPanel Margin="10">
+                <TextBlock Text="GitHub Copilot（gh auth login 後執行 gh auth token，需有 Copilot 訂閱）"
+                           Foreground="#555" FontSize="11" TextWrapping="Wrap" />
+                <PasswordBox x:Name="GithubKeyBox" Margin="0,4,0,12" Padding="4" />
+
+                <TextBlock Text="OpenCode Go（~/.local/share/opencode/auth.json 中的 opencode-go 金鑰）"
+                           Foreground="#555" FontSize="11" TextWrapping="Wrap" />
+                <PasswordBox x:Name="OpencodeKeyBox" Margin="0,4,0,0" Padding="4" />
+
+                <TextBlock Text="ChatGPT（Plus/Pro，chatgpt.com 登入後，從 DevTools 任一 backend-api 請求的 Authorization 頭或 ~/.codex/auth.json 取得 access token）"
+                           Foreground="#555" FontSize="11" TextWrapping="Wrap" Margin="0,12,0,0" />
+                <PasswordBox x:Name="ChatGptConsumerTokenBox" Margin="0,4,0,0" Padding="4" />
+
+                <TextBlock Text="ChatGPT Account Id（選填，多帳號或 401 時建議設定，可從 ~/.codex/auth.json 的 account_id 取得）"
+                           Foreground="#555" FontSize="11" TextWrapping="Wrap" Margin="0,8,0,0" />
+                <PasswordBox x:Name="ChatGptConsumerAccountIdBox" Margin="0,4,0,0" Padding="4" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="顯示" Margin="0,0,0,12">
+            <StackPanel Margin="10">
+                <CheckBox x:Name="OverlayVisibleCheck" Content="顯示懸浮窗" Margin="0,0,0,12" />
+
+                <TextBlock Text="輪詢間隔（秒，至少 10）" Foreground="#555" FontSize="11" />
+                <TextBox x:Name="PollIntervalBox" Margin="0,4,0,0" Padding="4" Width="120"
+                         HorizontalAlignment="Left" />
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="儲存" IsDefault="True" Width="90" Height="30" Margin="0,0,8,0"
+                    Click="OnSave" />
+            <Button Content="取消" IsCancel="True" Width="90" Height="30"
+                    Click="OnCancel" />
+        </StackPanel>
+    </StackPanel>
+</Window>

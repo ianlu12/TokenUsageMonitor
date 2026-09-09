@@ -1,0 +1,87 @@
+<Window x:Class="TokenUsageMonitor.Views.OverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:TokenUsageMonitor.Converters"
+        Title="Token Usage Monitor"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Topmost="True"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Focusable="False"
+        MinWidth="150"
+        SizeToContent="WidthAndHeight"
+        Icon="/Assets/App.ico">
+    <Window.Resources>
+        <converters:OpacityToBackgroundConverter x:Key="OpacityToBackground" />
+    </Window.Resources>
+
+    <Border x:Name="RootBorder"
+            CornerRadius="10"
+            Background="{Binding Opacity, Converter={StaticResource OpacityToBackground}}"
+            BorderBrush="#50FFFFFF"
+            BorderThickness="1"
+            Padding="12,8"
+            Cursor="SizeAll"
+            MouseLeftButtonDown="OnDragStart"
+            IsHitTestVisible="True">
+        <Border.ContextMenu>
+            <ContextMenu x:Name="OverlayMenu">
+                <Separator />
+                <MenuItem Header="背景透明度">
+                    <MenuItem x:Name="Opacity100" Header="100%" IsCheckable="True" Tag="1.0" Click="OnOpacityChanged" />
+                    <MenuItem x:Name="Opacity75" Header="75%" IsCheckable="True" Tag="0.75" Click="OnOpacityChanged" />
+                    <MenuItem x:Name="Opacity50" Header="50%" IsCheckable="True" Tag="0.5" Click="OnOpacityChanged" />
+                    <MenuItem x:Name="Opacity25" Header="25%" IsCheckable="True" Tag="0.25" Click="OnOpacityChanged" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="重新整理" Click="OnRefreshClick" />
+                <MenuItem Header="隱藏懸浮窗" Click="OnHideClick" />
+            </ContextMenu>
+        </Border.ContextMenu>
+
+        <StackPanel VerticalAlignment="Center">
+            <StackPanel x:Name="EmptyRow" Orientation="Horizontal">
+                <Ellipse x:Name="StatusDot" Width="8" Height="8" Fill="Gray"
+                         Margin="0,0,6,0" VerticalAlignment="Center" />
+                <TextBlock Text="未設定" Foreground="#FFD8D8D8" FontSize="11" VerticalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="1" />
+                    </TextBlock.Effect>
+                </TextBlock>
+            </StackPanel>
+
+            <ItemsControl x:Name="MeterList" ItemsSource="{Binding VisibleUsages}" Visibility="Collapsed">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,2,0,4">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                <Ellipse Width="8" Height="8" Fill="{Binding StatusBrush}"
+                                         Margin="0,0,6,0" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Display}" Foreground="#FFD8D8D8" FontSize="11"
+                                           TextTrimming="CharacterEllipsis">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="1" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                            </StackPanel>
+                            <TextBlock Text="{Binding Percent}" Foreground="White" FontSize="20" FontWeight="Bold"
+                                       HorizontalAlignment="Left">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="1" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                            <TextBlock Text="{Binding Detail}" Foreground="#FFAFAFAF" FontSize="10" Margin="0,2,0,0"
+                                       TextTrimming="CharacterEllipsis" HorizontalAlignment="Left">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="1" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Border>
+</Window>
