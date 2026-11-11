@@ -45,9 +45,9 @@
             <StackPanel x:Name="EmptyRow" Orientation="Horizontal">
                 <Ellipse x:Name="StatusDot" Width="8" Height="8" Fill="Gray"
                          Margin="0,0,6,0" VerticalAlignment="Center" />
-                <TextBlock Text="未設定" Foreground="#FFD8D8D8" FontSize="11" VerticalAlignment="Center">
+                <TextBlock Text="未設定" Foreground="White" FontSize="11" VerticalAlignment="Center">
                     <TextBlock.Effect>
-                        <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="1" />
+                        <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="0" Opacity="1" />
                     </TextBlock.Effect>
                 </TextBlock>
             </StackPanel>
@@ -59,23 +59,23 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
                                 <Ellipse Width="8" Height="8" Fill="{Binding StatusBrush}"
                                          Margin="0,0,6,0" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding Display}" Foreground="#FFD8D8D8" FontSize="11"
+                                <TextBlock Text="{Binding Display}" Foreground="White" FontSize="11"
                                            TextTrimming="CharacterEllipsis">
                                     <TextBlock.Effect>
-                                        <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="1" />
+                                        <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="0" Opacity="1" />
                                     </TextBlock.Effect>
                                 </TextBlock>
                             </StackPanel>
                             <TextBlock Text="{Binding Percent}" Foreground="White" FontSize="20" FontWeight="Bold"
                                        HorizontalAlignment="Left">
                                     <TextBlock.Effect>
-                                        <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="1" />
+                                        <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="0" Opacity="1" />
                                     </TextBlock.Effect>
                                 </TextBlock>
-                            <TextBlock Text="{Binding Detail}" Foreground="#FFAFAFAF" FontSize="10" Margin="0,2,0,0"
+                            <TextBlock Text="{Binding Detail}" Foreground="White" FontSize="10" Margin="0,2,0,0"
                                        TextTrimming="CharacterEllipsis" HorizontalAlignment="Left">
                                     <TextBlock.Effect>
-                                        <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="1" />
+                                        <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="0" Opacity="1" />
                                     </TextBlock.Effect>
                                 </TextBlock>
                         </StackPanel>

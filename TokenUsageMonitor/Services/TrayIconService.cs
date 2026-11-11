@@ -98,7 +98,8 @@ public sealed class TrayIconService : IDisposable
             g.Clear(Color.Transparent);
 
             // Match the app icon's dark circular gauge style: dark disc
-            // background with a status-colored percentage glyph.
+            // background with a status-colored percentage glyph and a
+            // progress ring that grows with the usage percentage.
             using (var bgBrush = new SolidBrush(Color.FromArgb(43, 43, 43)))
             {
                 g.FillEllipse(bgBrush, 1, 1, 14, 14);
@@ -106,25 +107,30 @@ public sealed class TrayIconService : IDisposable
 
             Color fg;
             string text;
+            float sweep;
             if (usage is null)
             {
                 text = "?";
                 fg = Color.FromArgb(176, 176, 176);
+                sweep = 0;
             }
             else if (usage.Status == MeterStatus.NotConfigured)
             {
                 text = "?";
                 fg = Color.FromArgb(158, 158, 158);
+                sweep = 0;
             }
             else if (usage.Status == MeterStatus.Error)
             {
                 text = "!";
                 fg = Color.FromArgb(224, 72, 76);
+                sweep = 360;
             }
             else if (usage.UsedPercent >= 100)
             {
                 text = "!!";
                 fg = Color.FromArgb(224, 72, 76);
+                sweep = 360;
             }
             else
             {
@@ -132,14 +138,26 @@ public sealed class TrayIconService : IDisposable
                 fg = usage.UsedPercent >= 80
                     ? Color.FromArgb(230, 126, 34)
                     : Color.FromArgb(52, 208, 88);
+                sweep = (float)(Math.Clamp(usage.UsedPercent, 0, 100) / 100 * 360);
             }
 
-            using var font = new Font("Segoe UI", 7f, FontStyle.Bold, GraphicsUnit.Pixel);
+            using (var trackPen = new Pen(Color.FromArgb(90, 90, 90), 2f))
+            {
+                g.DrawEllipse(trackPen, 2, 2, 12, 12);
+            }
+
+            if (sweep > 0)
+            {
+                using var ringPen = new Pen(fg, 2f) { StartCap = LineCap.Round, EndCap = LineCap.Round };
+                g.DrawArc(ringPen, 2, 2, 12, 12, -90f, sweep);
+            }
+
+            float fontSize = text.Length >= 3 ? 6f : 7f;
+            using var font = new Font("Segoe UI", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
             SizeF sz = g.MeasureString(text, font);
             using var textBrush = new SolidBrush(fg);
             g.DrawString(text, font, textBrush, (16 - sz.Width) / 2f, (16 - sz.Height) / 2f);
         }
-
         IntPtr hIcon = bmp.GetHicon();
         try
         {
